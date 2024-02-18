@@ -15,8 +15,9 @@
 		This hidden input is only needed if the PK field in the Model class is not "ID"
 		e.g, CategoryID
 		In that case, you need to add hidden input field.
+		But for best practice, we add an hidden input for id
 		*@
-		@*<input type="hidden" asp-for="<e.g: CategoryID>" />*@
+		<input type="hidden" asp-for="ID" />
 
 		<div class="mb-3 row p-1">
 			<label asp-for="Name" class="p-0"></label>
