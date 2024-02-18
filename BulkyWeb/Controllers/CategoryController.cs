@@ -34,6 +34,12 @@ namespace BulkyWeb.Controllers
 		[HttpPost]
 		public IActionResult Create(Category cate)
 		{
+			// Custom validation: Name can't be same with DisplayedOrder
+			if (cate.Name == cate.DisplayedOrder.ToString())
+			{
+				// The key ("name") is retrieved from the asp-for in the view (case-insensitive)
+				ModelState.AddModelError("name", "Name can not have same value with Displayed Order.");
+			}
 			// Server-side validation
 			if (ModelState.IsValid)
 			{
