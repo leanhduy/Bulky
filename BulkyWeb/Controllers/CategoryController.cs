@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BulkyWeb.Controllers
 {
+
+	// TODO: Convert data retrieving operation into async 
+
 	public class CategoryController : Controller
 	{
 		private readonly ApplicationDbContext _db;
@@ -15,10 +18,23 @@ namespace BulkyWeb.Controllers
 			_db = db;
 		}
 
-		public async Task<IActionResult> Index()
+		public IActionResult Index()
 		{
-			List<Category> categories = await _db.Categories.ToListAsync<Category>();
+			List<Category> categories = _db.Categories.ToList();
 			return View(categories);
+		}
+
+		// GET: 
+		public IActionResult Create()
+		{
+			return View();
+		}
+
+		// POST: 
+		[HttpPost]
+		public IActionResult CreatePOST()
+		{
+			return RedirectToAction("Index");
 		}
 	}
 }
