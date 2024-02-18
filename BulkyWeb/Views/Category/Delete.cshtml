@@ -4,38 +4,46 @@
 
 @model Category
 
-<form method="POST" asp-controller="Category" asp-action="DeletePOST" asp-route-id="@Model.ID">
-	<div class="border p-3 mt-4">
-		<div class="row pb-2">
-			<h2 class="text-primary">Delete Category</h2>
-			<hr />
-		</div>
-
-		@*
-		This hidden input is only needed if the PK field in the Model class is not "ID"
-		e.g, CategoryID
-		In that case, you need to add hidden input field.
-		But for best practice, we add an hidden input for id
-		*@
-		<input type="hidden" asp-for="ID" />
-
-		<div class="mb-3 row p-1">
-			<label asp-for="Name" class="p-0"></label>
-			<input asp-for="Name" type="text" class="form-control" disabled />
-		</div>
-		<div class="mb-3 row p-1">
-			<label asp-for="DisplayedOrder" class="p-0"></label>
-			<input asp-for="DisplayedOrder" type="text" class="form-control" disabled />
-		</div>
-
+<div class="card shadow border-0 mt-4">
+	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
 		<div class="row">
-			<div class="col-6 col-md-3">
-				<button type="submit" class="btn btn-danger w-100">Delete</button>
-			</div>
-			<div class="col-6 col-md-3">
-				<a class="btn btn-secondary border w-100" asp-controller="Category" asp-action="Index">Back to List</a>
+			<div class="col-12 text-center">
+				<h2 class="text-white py-2">Delete Category</h2>
 			</div>
 		</div>
-
 	</div>
-</form>
+	<div class="card-body p-4">
+		<form method="POST" asp-controller="Category" asp-action="DeletePOST" asp-route-id="@Model.ID">
+			<div class="border p-3 mt-4">
+				@*
+				This hidden input is only needed if the PK field in the Model class is not "ID"
+				e.g, CategoryID
+				In that case, you need to add hidden input field.
+				But for best practice, we add an hidden input for id
+				*@
+				<input type="hidden" asp-for="ID" />
+
+				<div class="form-floating py-2 col-12">
+					<input asp-for="Name" class="form-control border-0 shadow" disabled />
+					<label asp-for="Name" class="ms-2"></label>
+					<span asp-validation-for="Name" class="text-danger"></span>
+				</div>
+				<div class="form-floating py-2 col-12">
+					<input asp-for="DisplayedOrder" class="form-control border-0 shadow" disabled/>
+					<label asp-for="DisplayedOrder" class="ms-2"></label>
+					<span asp-validation-for="DisplayedOrder" class="text-danger"></span>
+				</div>
+
+				<div class="row mt-3">
+					<div class="col-6 col-md-3">
+						<button type="submit" class="btn btn-danger w-100">Delete</button>
+					</div>
+					<div class="col-6 col-md-3">
+						<a class="btn btn-secondary border w-100" asp-controller="Category" asp-action="Index">Back to List</a>
+					</div>
+				</div>
+
+			</div>
+		</form>
+	</div>
+</div>
