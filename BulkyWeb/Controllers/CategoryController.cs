@@ -24,6 +24,7 @@ namespace BulkyWeb.Controllers
 			return View(categories);
 		}
 
+		// CREATE
 		// GET: 
 		public IActionResult Create()
 		{
@@ -49,6 +50,48 @@ namespace BulkyWeb.Controllers
 				return RedirectToAction("Index");
 			}
 			return View();
+		}
+
+		// CREATE
+		// GET: 
+		public IActionResult Edit(int? id)
+		{
+			// Check if id is null or valid
+			if (id == null || id == 0)
+			{
+				return NotFound();
+			}
+
+			// Different LINQ approach to get data by id
+			//Category? cate = _db.Categories.Where(c => c.ID == id);
+			//Category? cate = _db.Categories.Find(id);
+			Category? cate = _db.Categories.FirstOrDefault(c => c.ID == id);
+			if (cate == null)
+			{
+				return NotFound();
+			}
+			return View(cate);
+		}
+
+		// POST: 
+		[HttpPost]
+		public IActionResult Edit(Category cate)
+		{
+			// Apply same custom validation as in CREATE
+			// Custom validation: Name can't be same with DisplayedOrder
+			if (cate.Name == cate.DisplayedOrder.ToString())
+			{
+				ModelState.AddModelError("name", "Name can not have same value with Displayed Order.");
+			}
+			// Server-side validation
+			if (ModelState.IsValid)
+			{
+				_db.Categories.Update(cate);
+				_db.SaveChanges();
+				return RedirectToAction("Index");
+			}
+			return View();
+
 		}
 	}
 }
