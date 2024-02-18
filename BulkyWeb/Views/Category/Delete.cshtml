@@ -1,0 +1,40 @@
+﻿@*
+    Category - Delete view
+*@
+
+@model Category
+
+<form method="POST" asp-controller="Category" asp-action="DeletePOST" asp-route-id="@Model.ID">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">Delete Category</h2>
+			<hr />
+		</div>
+
+		@*
+		This hidden input is only needed if the PK field in the Model class is not "ID"
+		e.g, CategoryID
+		In that case, you need to add hidden input field.
+		*@
+		@*<input type="hidden" asp-for="<e.g: CategoryID>" />*@
+
+		<div class="mb-3 row p-1">
+			<label asp-for="Name" class="p-0"></label>
+			<input asp-for="Name" type="text" class="form-control" disabled />
+		</div>
+		<div class="mb-3 row p-1">
+			<label asp-for="DisplayedOrder" class="p-0"></label>
+			<input asp-for="DisplayedOrder" type="text" class="form-control" disabled />
+		</div>
+
+		<div class="row">
+			<div class="col-6 col-md-3">
+				<button type="submit" class="btn btn-danger w-100">Delete</button>
+			</div>
+			<div class="col-6 col-md-3">
+				<a class="btn btn-secondary border w-100" asp-controller="Category" asp-action="Index">Back to List</a>
+			</div>
+		</div>
+
+	</div>
+</form>

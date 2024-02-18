@@ -52,7 +52,7 @@ namespace BulkyWeb.Controllers
 			return View();
 		}
 
-		// CREATE
+		// UPDATE
 		// GET: 
 		public IActionResult Edit(int? id)
 		{
@@ -92,6 +92,40 @@ namespace BulkyWeb.Controllers
 			}
 			return View();
 
+		}
+
+		// DELETE
+		// GET: 
+		public IActionResult Delete(int? id)
+		{
+			// Check if id is null or valid
+			if (id == null || id == 0)
+			{
+				return NotFound();
+			}
+
+			Category? cate = _db.Categories.FirstOrDefault(c => c.ID == id);
+			if (cate == null)
+			{
+				return NotFound();
+			}
+			return View(cate);
+		}
+
+		// POST: 
+		[HttpPost]
+		public IActionResult DeletePOST(int? id)
+		{
+			// Find the category from the db
+			Category? cateToBeDeleted = _db.Categories.FirstOrDefault(c => c.ID == id);
+			if (cateToBeDeleted == null)
+			{
+				return NotFound();
+			}
+
+			_db.Categories.Remove(cateToBeDeleted);
+			_db.SaveChanges();
+			return RedirectToAction("Index");
 		}
 	}
 }
