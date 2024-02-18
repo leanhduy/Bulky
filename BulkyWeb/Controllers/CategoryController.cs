@@ -41,6 +41,7 @@ namespace BulkyWeb.Controllers
 			{
 				// The key ("name") is retrieved from the asp-for in the view (case-insensitive)
 				ModelState.AddModelError("name", "Name can not have same value with Displayed Order.");
+
 			}
 			// Server-side validation
 			if (ModelState.IsValid)

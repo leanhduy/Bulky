@@ -1,0 +1,17 @@
+﻿@* Partial View to display notification from TempData *@
+@if (TempData["success"] != null)
+{
+	<div class="alert alert-dismissible alert-success">
+		<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+		<strong>@TempData["success"]</strong>
+	</div>
+}
+
+@* This is for any error notification *@
+@if (TempData["error"] != null)
+{
+	<div class="alert alert-dismissible alert-danger">
+		<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+		<strong>@TempData["error"]</strong>
+	</div>
+}
