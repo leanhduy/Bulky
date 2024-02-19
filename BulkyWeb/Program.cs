@@ -1,5 +1,7 @@
 using Bulky.DataAccess.Data;
-using Bulky.DataAccess.Repositories;
+using Bulky.DataAccess.IRepository;
+using Bulky.DataAccess.Repository;
+using Bulky.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
