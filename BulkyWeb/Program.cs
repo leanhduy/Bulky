@@ -6,8 +6,24 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Add DBContext service
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Add DBContext service (Use the corrent database service)
+
+// NOTE: On n-tier application, add-migration command will be run on Web project, adding the --project option = DataAccess project
+// SQL SERVER
+// builder.Services.AddDbContext<ApplicationDbContext>(
+// 		options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+// 		x => x.MigrationsAssembly("Bulky.DataAccess")
+// 	)
+// );
+
+// PostgreSQL
+// builder.Services.AddDbContext<ApplicationDbContext>(
+// 	options => options.UseNpgsql(
+// 			builder.Configuration.GetConnectionString("PostgresConnection"),
+// 			x => x.MigrationsAssembly("Bulky.DataAccess")
+// 		)
+// 	);
+
 
 var app = builder.Build();
 
