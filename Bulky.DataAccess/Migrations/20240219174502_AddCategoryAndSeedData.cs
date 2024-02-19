@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -8,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bulky.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class AddCategoryAndSeedPostgreSQL : Migration
+    public partial class AddCategoryAndSeedData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,10 +16,10 @@ namespace Bulky.DataAccess.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    DisplayedOrder = table.Column<int>(type: "integer", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    DisplayedOrder = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
