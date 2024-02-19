@@ -1,4 +1,5 @@
 using Bulky.DataAccess.Data;
+using Bulky.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,8 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Add DBContext service (Use the corrent database service)
-
+#region DBContext service for differnt database providers
+#region MSSQL
+// Add DBContext service (Use the correct database service)
 // NOTE: On n-tier application, add-migration command will be run on Web project, adding the --project option = DataAccess project
 // .net cli command: dotnet ef migrations add <Name> --project <Data Layer Project>
 // Package manager console: Add-Migration <Name> -Project <Data Layer Project>
@@ -16,7 +18,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 		options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
 	)
 );
+#endregion
 
+#region PostgreSQL
 // PostgreSQL
 // builder.Services.AddDbContext<ApplicationDbContext>(
 // 	options => options.UseNpgsql(
@@ -24,6 +28,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 // 			x => x.MigrationsAssembly("Bulky.DataAccess")
 // 		)
 // 	);
+#endregion
+#endregion
+
+#region Repositories service 
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+#endregion
+
 
 var app = builder.Build();
 
