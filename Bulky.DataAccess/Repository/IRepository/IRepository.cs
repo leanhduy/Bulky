@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Bulky.DataAccess.IRepository
+namespace Bulky.DataAccess.Repository.IRepository
 {
     /// <summary>
     /// The generic interface in the Generic Repository pattern

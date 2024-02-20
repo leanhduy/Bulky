@@ -1,6 +1,6 @@
 using Bulky.DataAccess.Data;
-using Bulky.DataAccess.IRepository;
 using Bulky.DataAccess.Repository;
+using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,7 +34,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 #endregion
 
 #region Repositories service 
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 #endregion
 
 
