@@ -25,13 +25,13 @@ namespace BulkyWeb.Areas.Admin.Controllers
 		// READ: ALL BOOKS
 		public IActionResult Index()
 		{
-			List<Product> products = _unitOfWork.Products.GetAll().ToList();
+			List<Product> products = _unitOfWork.Products.GetAll(includeProps: "Category").ToList();
 			return View(products);
 		}
 
 		public IActionResult Details(int id)
 		{
-			Product product = _unitOfWork.Products.Get(p => p.Id == id);
+			Product product = _unitOfWork.Products.Get(p => p.Id == id, includeProps: "Category");
 			return View(product);
 		}
 
@@ -126,58 +126,6 @@ namespace BulkyWeb.Areas.Admin.Controllers
 			}
 			return View();
 		}
-
-		#region Edit (Removed after test the Upsert
-		// EDIT : GET
-		//public IActionResult Edit(int? id)
-		//{
-		//	if (id == 0 || id == null)
-		//	{
-		//		return NotFound();
-		//	}
-		//	Product? product = _unitOfWork.Products.Get(p => p.Id == id);
-		//	if (product == null)
-		//	{
-		//		return NotFound();
-		//	}
-		//	IEnumerable<SelectListItem> categoryList = _unitOfWork.Categories.GetAll().Select(
-		//			c => new SelectListItem
-		//			{
-		//				Text = c.Name,
-		//				Value = c.ID.ToString()
-		//			}
-		//	);
-		//	ProductVM vm = new ProductVM
-		//	{
-		//		Product = product,
-		//		CategoryList = categoryList
-		//	};
-		//	return View(vm);
-		//}
-
-		//[HttpPost]
-		//public IActionResult Edit(ProductVM vm)
-		//{
-		//	if (ModelState.IsValid)
-		//	{
-		//		_unitOfWork.Products.Update(vm.Product);
-		//		_unitOfWork.Save();
-		//		TempData["success"] = $"Update Product with ID {vm.Product.Id} successfully!";
-		//		return RedirectToAction("Index");
-		//	}
-		//	else
-		//	{
-		//		vm.CategoryList = _unitOfWork.Categories.GetAll().Select(
-		//			c => new SelectListItem
-		//			{
-		//				Text = c.Name,
-		//				Value = c.ID.ToString()
-		//			}
-		//		);
-		//		return View(vm);
-		//	}
-		//}
-		#endregion
 
 		// DELETE : GET
 		public IActionResult Delete(int? id)
