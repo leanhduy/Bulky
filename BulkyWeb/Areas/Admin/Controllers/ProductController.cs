@@ -1,5 +1,6 @@
 ﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
+using Bulky.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -41,27 +42,35 @@ namespace BulkyWeb.Areas.Admin.Controllers
 				}
 			);
 
-			// Pass the Category list to the view using ViewBag
-			ViewBag.CategoryList = CategoryList;
-			// Alternative #1: ViewData. e.g, ViewData["CategoryList"] = CategoryList
-			// ViewData must be casted before usage (In view).
-			// e.g asp-items = "@(ViewData["CategoryList"] as IEnumerable<SelectListItem)"
-			// Alternative #2: TempData
-			// Alternative #3: (recommended) ViewModel
+			ProductVM vm = new ProductVM
+			{
+				CategoryList = CategoryList,
+				Product = new Product()
+			};
 
-
-			return View();
+			return View(vm);
 		}
 
 		[HttpPost]
-		public IActionResult Create(Product product)
+		public IActionResult Create(ProductVM vm)
 		{
 			if (ModelState.IsValid)
 			{
-				_unitOfWork.Products.Insert(product);
+				_unitOfWork.Products.Insert(vm.Product);
 				_unitOfWork.Save();
-				TempData["success"] = $"Created Product: {product.Title} successfully!";
+				TempData["success"] = $"Created Product: {vm.Product.Title} successfully!";
 				return RedirectToAction("Index");
+			}
+			else
+			{
+				vm.CategoryList = _unitOfWork.Categories.GetAll().Select(
+					c => new SelectListItem
+					{
+						Text = c.Name,
+						Value = c.ID.ToString()
+					}
+				);
+				return View(vm);
 			}
 			return View();
 		}
@@ -78,23 +87,42 @@ namespace BulkyWeb.Areas.Admin.Controllers
 			{
 				return NotFound();
 			}
-			Category cate = _unitOfWork.Categories.Get(c => c.ID == product.CategoryId);
-			ViewData["ProductCategory"] = cate.Name;
-			ViewData["Categories"] = _unitOfWork.Categories.GetAll().ToList();
-			return View(product);
+			IEnumerable<SelectListItem> categoryList = _unitOfWork.Categories.GetAll().Select(
+					c => new SelectListItem
+					{
+						Text = c.Name,
+						Value = c.ID.ToString()
+					}
+			);
+			ProductVM vm = new ProductVM
+			{
+				Product = product,
+				CategoryList = categoryList
+			};
+			return View(vm);
 		}
 
 		[HttpPost]
-		public IActionResult Edit(Product product)
+		public IActionResult Edit(ProductVM vm)
 		{
 			if (ModelState.IsValid)
 			{
-				_unitOfWork.Products.Update(product);
+				_unitOfWork.Products.Update(vm.Product);
 				_unitOfWork.Save();
-				TempData["success"] = $"Update Product with ID {product.Id} successfully!";
+				TempData["success"] = $"Update Product with ID {vm.Product.Id} successfully!";
 				return RedirectToAction("Index");
 			}
-			return View();
+			else
+			{
+				vm.CategoryList = _unitOfWork.Categories.GetAll().Select(
+					c => new SelectListItem
+					{
+						Text = c.Name,
+						Value = c.ID.ToString()
+					}
+				);
+				return View(vm);
+			}
 		}
 
 		// DELETE : GET
