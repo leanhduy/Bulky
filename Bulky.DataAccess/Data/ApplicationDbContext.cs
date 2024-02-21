@@ -1,5 +1,6 @@
 ﻿using Bulky.Models;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.WebRequestMethods;
 
 namespace Bulky.DataAccess.Data
 {
@@ -36,7 +37,8 @@ namespace Bulky.DataAccess.Data
 					Price = 180,
 					Price50 = 170,
 					Price100 = 160,
-					CategoryId = 1
+					CategoryId = 1,
+					ImageUrl = "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png"
 				},
 				new Product
 				{
@@ -49,7 +51,8 @@ namespace Bulky.DataAccess.Data
 					Price = 140,
 					Price50 = 130,
 					Price100 = 120,
-					CategoryId = 2
+					CategoryId = 2,
+					ImageUrl = "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png"
 				},
 				new Product
 				{
@@ -62,7 +65,8 @@ namespace Bulky.DataAccess.Data
 					Price = 280,
 					Price50 = 270,
 					Price100 = 260,
-					CategoryId = 1
+					CategoryId = 1,
+					ImageUrl = "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png"
 				},
 				new Product
 				{
@@ -75,7 +79,8 @@ namespace Bulky.DataAccess.Data
 					Price = 110,
 					Price50 = 100,
 					Price100 = 90,
-					CategoryId = 2
+					CategoryId = 2,
+					ImageUrl = "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png"
 				},
 				new Product
 				{
@@ -88,7 +93,8 @@ namespace Bulky.DataAccess.Data
 					Price = 200,
 					Price50 = 190,
 					Price100 = 180,
-					CategoryId = 2
+					CategoryId = 2,
+					ImageUrl = "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png"
 				},
 				new Product
 				{
@@ -101,7 +107,8 @@ namespace Bulky.DataAccess.Data
 					Price = 210,
 					Price50 = 200,
 					Price100 = 190,
-					CategoryId = 3
+					CategoryId = 3,
+					ImageUrl = "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png"
 				},
 				new Product
 				{
@@ -114,7 +121,8 @@ namespace Bulky.DataAccess.Data
 					Price = 220,
 					Price50 = 210,
 					Price100 = 200,
-					CategoryId = 2
+					CategoryId = 2,
+					ImageUrl = "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png"
 				},
 				new Product
 				{
@@ -127,7 +135,8 @@ namespace Bulky.DataAccess.Data
 					Price = 230,
 					Price50 = 220,
 					Price100 = 210,
-					CategoryId = 1
+					CategoryId = 1,
+					ImageUrl = "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png"
 				},
 				new Product
 				{
@@ -140,7 +149,8 @@ namespace Bulky.DataAccess.Data
 					Price = 240,
 					Price50 = 230,
 					Price100 = 220,
-					CategoryId = 4
+					CategoryId = 4,
+					ImageUrl = "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png"
 				},
 				new Product
 				{
@@ -153,7 +163,8 @@ namespace Bulky.DataAccess.Data
 					Price = 250,
 					Price50 = 240,
 					Price100 = 230,
-					CategoryId = 2
+					CategoryId = 2,
+					ImageUrl = "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png"
 				},
 				new Product
 				{
@@ -166,7 +177,8 @@ namespace Bulky.DataAccess.Data
 					Price = 340,
 					Price50 = 330,
 					Price100 = 320,
-					CategoryId = 5
+					CategoryId = 5,
+					ImageUrl = "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png"
 				},
 				new Product
 				{
@@ -179,7 +191,8 @@ namespace Bulky.DataAccess.Data
 					Price = 350,
 					Price50 = 340,
 					Price100 = 330,
-					CategoryId = 5
+					CategoryId = 5,
+					ImageUrl = "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png"
 				},
 				new Product
 				{
@@ -192,7 +205,8 @@ namespace Bulky.DataAccess.Data
 					Price = 360,
 					Price50 = 350,
 					Price100 = 340,
-					CategoryId = 5
+					CategoryId = 5,
+					ImageUrl = "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png"
 				},
 				new Product
 				{
@@ -205,7 +219,8 @@ namespace Bulky.DataAccess.Data
 					Price = 370,
 					Price50 = 360,
 					Price100 = 350,
-					CategoryId = 5
+					CategoryId = 5,
+					ImageUrl = "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png"
 				},
 				new Product
 				{
@@ -218,7 +233,8 @@ namespace Bulky.DataAccess.Data
 					Price = 380,
 					Price50 = 370,
 					Price100 = 360,
-					CategoryId = 5
+					CategoryId = 5,
+					ImageUrl = "https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png"
 				}
 			);
 			#endregion
