@@ -9,11 +9,15 @@ namespace BulkyWeb.Areas.Admin.Controllers
 	[Area("Admin")]
 	public class ProductController : Controller
 	{
-		private IUnitOfWork _unitOfWork;
+		private readonly IUnitOfWork _unitOfWork;
+		// Built-in service to access wwwroot directory
+		// Since it is built-in, no need to inject inside Program.cs
+		private readonly IWebHostEnvironment _webHostEnvironment;		
 
-		public ProductController(IUnitOfWork unitOfWork)
+		public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
 		{
 			_unitOfWork = unitOfWork;
+			_webHostEnvironment = webHostEnvironment;
 		}
 
 		#region CRUD
@@ -63,6 +67,25 @@ namespace BulkyWeb.Areas.Admin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				// Access the wwwroot
+				string rootPth = _webHostEnvironment.WebRootPath;
+				if (file != null)
+				{
+					// Create the new name of the uploaded file to be a unique GUID string
+					string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+					// Forming the file path
+					string productPath = Path.Combine(rootPth, @"images\product");
+
+					// save the file
+					using (var fs = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+					{
+						file.CopyTo(fs);
+					}
+
+					// Save the file path into Product's ImageUrl
+					vm.Product.ImageUrl = @$"\images\product\{fileName}";
+				}
+
 				_unitOfWork.Products.Insert(vm.Product);
 				_unitOfWork.Save();
 				TempData["success"] = $"Created Product: {vm.Product.Title} successfully!";

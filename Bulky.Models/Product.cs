@@ -42,6 +42,7 @@ namespace Bulky.Models
 		public Category Category { get; set; }
 
 		// Image URL
+		[ValidateNever]
 		public string ImageUrl { get; set; }
 
 	}
