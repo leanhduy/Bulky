@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bulky.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240221014933_AddProductAndSeedData")]
-    partial class AddProductAndSeedData
+    [Migration("20240221040657_AddProductAndCategoryWithSeedData")]
+    partial class AddProductAndCategoryWithSeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,6 +62,18 @@ namespace Bulky.DataAccess.Migrations
                             ID = 3,
                             DisplayedOrder = 3,
                             Name = "History"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            DisplayedOrder = 4,
+                            Name = "Classical Literature"
+                        },
+                        new
+                        {
+                            ID = 5,
+                            DisplayedOrder = 5,
+                            Name = "Programming"
                         });
                 });
 
@@ -76,6 +88,9 @@ namespace Bulky.DataAccess.Migrations
                     b.Property<string>("Author")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -103,6 +118,8 @@ namespace Bulky.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Products");
 
                     b.HasData(
@@ -110,6 +127,7 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 1,
                             Author = "Leo Tolstoy",
+                            CategoryId = 1,
                             Description = "A novel by Leo Tolstoy",
                             ISBN = "ISBN1",
                             ListPrice = 200.0,
@@ -122,6 +140,7 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 2,
                             Author = "Gustave Flaubert",
+                            CategoryId = 2,
                             Description = "A novel by Gustave Flaubert",
                             ISBN = "ISBN2",
                             ListPrice = 150.0,
@@ -134,6 +153,7 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 3,
                             Author = "Leo Tolstoy",
+                            CategoryId = 1,
                             Description = "A novel by Leo Tolstoy",
                             ISBN = "ISBN3",
                             ListPrice = 300.0,
@@ -146,6 +166,7 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 4,
                             Author = "F. Scott Fitzgerald",
+                            CategoryId = 2,
                             Description = "A novel by F. Scott Fitzgerald",
                             ISBN = "ISBN4",
                             ListPrice = 120.0,
@@ -158,6 +179,7 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 5,
                             Author = "Vladimir Nabokov",
+                            CategoryId = 2,
                             Description = "A novel by Vladimir Nabokov",
                             ISBN = "ISBN5",
                             ListPrice = 210.0,
@@ -170,6 +192,7 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 6,
                             Author = "George Eliot",
+                            CategoryId = 3,
                             Description = "A novel by George Eliot",
                             ISBN = "ISBN6",
                             ListPrice = 220.0,
@@ -182,6 +205,7 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 7,
                             Author = "George Orwell",
+                            CategoryId = 2,
                             Description = "A novel by George Orwell",
                             ISBN = "ISBN7",
                             ListPrice = 230.0,
@@ -194,6 +218,7 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 8,
                             Author = "J.R.R. Tolkien",
+                            CategoryId = 1,
                             Description = "A novel by J.R.R. Tolkien",
                             ISBN = "ISBN8",
                             ListPrice = 240.0,
@@ -206,6 +231,7 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 9,
                             Author = "Khaled Hosseini",
+                            CategoryId = 4,
                             Description = "A novel by Khaled Hosseini",
                             ISBN = "ISBN9",
                             ListPrice = 250.0,
@@ -218,6 +244,7 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 10,
                             Author = "J.K. Rowling",
+                            CategoryId = 2,
                             Description = "A novel by J.K. Rowling",
                             ISBN = "ISBN10",
                             ListPrice = 260.0,
@@ -230,6 +257,7 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 11,
                             Author = "Robert C. Martin",
+                            CategoryId = 5,
                             Description = "A book by Robert C. Martin",
                             ISBN = "ISBN16",
                             ListPrice = 350.0,
@@ -242,6 +270,7 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 12,
                             Author = "Frederick P. Brooks Jr.",
+                            CategoryId = 5,
                             Description = "A book by Frederick P. Brooks Jr.",
                             ISBN = "ISBN17",
                             ListPrice = 360.0,
@@ -254,6 +283,7 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 13,
                             Author = "Andrew Hunt and David Thomas",
+                            CategoryId = 5,
                             Description = "A book by Andrew Hunt and David Thomas",
                             ISBN = "ISBN18",
                             ListPrice = 370.0,
@@ -266,6 +296,7 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 14,
                             Author = "Eric Matthes",
+                            CategoryId = 5,
                             Description = "A book by Eric Matthes",
                             ISBN = "ISBN19",
                             ListPrice = 380.0,
@@ -278,6 +309,7 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 15,
                             Author = "Jon Stokes",
+                            CategoryId = 5,
                             Description = "A book by Jon Stokes",
                             ISBN = "ISBN20",
                             ListPrice = 390.0,
@@ -286,6 +318,17 @@ namespace Bulky.DataAccess.Migrations
                             Price50 = 370.0,
                             Title = "Inside the Machine: An Illustrated Introduction to Microprocessors and Computer Architecture"
                         });
+                });
+
+            modelBuilder.Entity("Bulky.Models.Product", b =>
+                {
+                    b.HasOne("Bulky.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }
