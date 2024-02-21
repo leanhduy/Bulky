@@ -5,6 +5,8 @@
 		// Declare all the repository for all models in the application
 		#region Repos
 		public ICategoryRepository Categories { get; }
+		public IProductRepository Products { get; }
+
 		// (later when we add Product)
 		// public IProductRepository 
 		#endregion

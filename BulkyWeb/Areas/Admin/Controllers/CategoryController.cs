@@ -1,15 +1,10 @@
-﻿using Bulky.DataAccess.Data;
-using Bulky.DataAccess.Repository.IRepository;
+﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BulkyWeb.Areas.Admin.Controllers
 {
-
-    // TODO: Convert data retrieving operation into async 
-    [Area("Admin")]
+	[Area("Admin")]
     public class CategoryController : Controller
     {
         private IUnitOfWork _unitOfWork;
@@ -58,10 +53,10 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
         // UPDATE
         // GET: 
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int? id)
         {
             // Check if id is null or valid
-            if (id == 0)
+            if (id == 0 || id == null)
             {
                 return NotFound();
             }
@@ -101,7 +96,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
         // DELETE
         // GET: 
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int? id)
         {
             // Check if id is null or valid
             if (id == null || id == 0)
