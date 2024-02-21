@@ -3,6 +3,7 @@ using Bulky.Models;
 using Bulky.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Identity.Client;
 
 namespace BulkyWeb.Areas.Admin.Controllers
 {
@@ -12,7 +13,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 		private readonly IUnitOfWork _unitOfWork;
 		// Built-in service to access wwwroot directory
 		// Since it is built-in, no need to inject inside Program.cs
-		private readonly IWebHostEnvironment _webHostEnvironment;		
+		private readonly IWebHostEnvironment _webHostEnvironment;
 
 		public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
 		{
@@ -65,6 +66,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 		[HttpPost]
 		public IActionResult Upsert(ProductVM vm, IFormFile? file)
 		{
+
 			if (ModelState.IsValid)
 			{
 				// Access the wwwroot
@@ -76,6 +78,19 @@ namespace BulkyWeb.Areas.Admin.Controllers
 					// Forming the file path
 					string productPath = Path.Combine(rootPth, @"images\product");
 
+					// Scenarios
+					// #1: ImageUrl: not null ==> Delete old image, upload new image
+					if (!string.IsNullOrEmpty(vm.Product.ImageUrl))
+					{
+						// delete old image
+						var oldPath = Path.Combine(rootPth, vm.Product.ImageUrl.TrimStart('\\'));
+						if (System.IO.File.Exists(oldPath))
+						{
+							System.IO.File.Delete(oldPath);
+						}
+					}
+
+					// #2: ImageUrl: null ==> Upload new image
 					// save the file
 					using (var fs = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
 					{
@@ -86,7 +101,15 @@ namespace BulkyWeb.Areas.Admin.Controllers
 					vm.Product.ImageUrl = @$"\images\product\{fileName}";
 				}
 
-				_unitOfWork.Products.Insert(vm.Product);
+				// Differentiate Insert & Update case. When view model's product id = 0 => Insert case
+				if (vm.Product.Id == 0)
+				{
+					_unitOfWork.Products.Insert(vm.Product);
+				}
+				else
+				{
+					_unitOfWork.Products.Update(vm.Product);
+				}
 				_unitOfWork.Save();
 				TempData["success"] = $"Created Product: {vm.Product.Title} successfully!";
 				return RedirectToAction("Index");
