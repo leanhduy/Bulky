@@ -30,8 +30,9 @@ namespace BulkyWeb.Areas.Admin.Controllers
 			return View(product);
 		}
 
-		// CREATE : GET
-		public IActionResult Create()
+		// CREATE + UPDATE: GET
+		// Combine Create & Update operation into one single action
+		public IActionResult Upsert(int? id)
 		{
 			// Apply EF Core: Projections to convert List of Categories to List of generic SelectListItem
 			IEnumerable<SelectListItem> CategoryList = _unitOfWork.Categories.GetAll().Select(
@@ -47,12 +48,18 @@ namespace BulkyWeb.Areas.Admin.Controllers
 				CategoryList = CategoryList,
 				Product = new Product()
 			};
-
+			// If id is not null, then it is an update scenario
+			// Otherwise, it's a create scenario
+			if (id != null && id > 0)
+			{
+				// Update
+				vm.Product = _unitOfWork.Products.Get(p => p.Id == id);
+			}
 			return View(vm);
 		}
 
 		[HttpPost]
-		public IActionResult Create(ProductVM vm)
+		public IActionResult Upsert(ProductVM vm, IFormFile? file)
 		{
 			if (ModelState.IsValid)
 			{
@@ -70,60 +77,61 @@ namespace BulkyWeb.Areas.Admin.Controllers
 						Value = c.ID.ToString()
 					}
 				);
-				return View(vm);
 			}
 			return View();
 		}
 
+		#region Edit (Removed after test the Upsert
 		// EDIT : GET
-		public IActionResult Edit(int? id)
-		{
-			if (id == 0 || id == null)
-			{
-				return NotFound();
-			}
-			Product? product = _unitOfWork.Products.Get(p => p.Id == id);
-			if (product == null)
-			{
-				return NotFound();
-			}
-			IEnumerable<SelectListItem> categoryList = _unitOfWork.Categories.GetAll().Select(
-					c => new SelectListItem
-					{
-						Text = c.Name,
-						Value = c.ID.ToString()
-					}
-			);
-			ProductVM vm = new ProductVM
-			{
-				Product = product,
-				CategoryList = categoryList
-			};
-			return View(vm);
-		}
+		//public IActionResult Edit(int? id)
+		//{
+		//	if (id == 0 || id == null)
+		//	{
+		//		return NotFound();
+		//	}
+		//	Product? product = _unitOfWork.Products.Get(p => p.Id == id);
+		//	if (product == null)
+		//	{
+		//		return NotFound();
+		//	}
+		//	IEnumerable<SelectListItem> categoryList = _unitOfWork.Categories.GetAll().Select(
+		//			c => new SelectListItem
+		//			{
+		//				Text = c.Name,
+		//				Value = c.ID.ToString()
+		//			}
+		//	);
+		//	ProductVM vm = new ProductVM
+		//	{
+		//		Product = product,
+		//		CategoryList = categoryList
+		//	};
+		//	return View(vm);
+		//}
 
-		[HttpPost]
-		public IActionResult Edit(ProductVM vm)
-		{
-			if (ModelState.IsValid)
-			{
-				_unitOfWork.Products.Update(vm.Product);
-				_unitOfWork.Save();
-				TempData["success"] = $"Update Product with ID {vm.Product.Id} successfully!";
-				return RedirectToAction("Index");
-			}
-			else
-			{
-				vm.CategoryList = _unitOfWork.Categories.GetAll().Select(
-					c => new SelectListItem
-					{
-						Text = c.Name,
-						Value = c.ID.ToString()
-					}
-				);
-				return View(vm);
-			}
-		}
+		//[HttpPost]
+		//public IActionResult Edit(ProductVM vm)
+		//{
+		//	if (ModelState.IsValid)
+		//	{
+		//		_unitOfWork.Products.Update(vm.Product);
+		//		_unitOfWork.Save();
+		//		TempData["success"] = $"Update Product with ID {vm.Product.Id} successfully!";
+		//		return RedirectToAction("Index");
+		//	}
+		//	else
+		//	{
+		//		vm.CategoryList = _unitOfWork.Categories.GetAll().Select(
+		//			c => new SelectListItem
+		//			{
+		//				Text = c.Name,
+		//				Value = c.ID.ToString()
+		//			}
+		//		);
+		//		return View(vm);
+		//	}
+		//}
+		#endregion
 
 		// DELETE : GET
 		public IActionResult Delete(int? id)

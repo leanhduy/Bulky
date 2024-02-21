@@ -4,14 +4,14 @@
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
 		<div class="row">
 			<div class="col-12 text-center">
-				<h2 class="text-white py-2">Create Product</h2>
+				<h2 class="text-white py-2">@(Model.Product.Id != 0 ? "Update" : "Create") Product</h2>
 			</div>
 		</div>
 	</div>
 	<div class="card-body p-4">
 		<form method="POST" class="row" enctype="multipart/form-data">
 			<div class="border p-3">
-				@*<div asp-validation-summary="All" class="text-danger"></div>*@
+				<input asp-for="@Model.Product.Id" hidden />
 				<div class="form-floating py-2 col-12">
 					<input asp-for="@Model.Product.ISBN" class="form-control border-0 shadow" />
 					<label asp-for="@Model.Product.ISBN" class="ms-2"></label>
@@ -67,7 +67,14 @@
 				</div>
 				<div class="row pt-2">
 					<div class="col-6 col-md-3">
-						<button type="submit" class="btn btn-primary w-100">Create</button>
+						@if (Model.Product.Id != 0)
+						{
+							<button type="submit" class="btn btn-primary w-100">Update</button>
+						}
+						else
+						{
+							<button type="submit" class="btn btn-primary w-100">Create</button>
+						}
 					</div>
 					<div class="col-6 col-md-3">
 						<a class="btn btn-outline-primary border w-100" asp-controller="Product" asp-action="Index">Back to List</a>
