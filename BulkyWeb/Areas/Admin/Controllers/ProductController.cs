@@ -158,5 +158,14 @@ namespace BulkyWeb.Areas.Admin.Controllers
 		}
 		#endregion
 
+		#region API
+		[HttpGet]
+		// endpoint: /admin/product/getall
+		public IActionResult GetAll()
+		{
+			var products = _unitOfWork.Products.GetAll(includeProps: "Category").ToList();
+			return Json(new { data = products });
+		}
+		#endregion
 	}
 }
