@@ -22,7 +22,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 	)
 );
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+// Removed the option that require user to confirm email before they can log in (options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
 #endregion
 
 #region PostgreSQL
@@ -40,6 +41,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 #endregion
 
+#region Identity Razor pages
+builder.Services.AddRazorPages();
+#endregion
+
 
 var app = builder.Build();
 
@@ -55,12 +60,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();	// Check if username & password correctly before moving on. Always before Authorization.
 app.UseAuthorization();
-
 app.MapControllerRoute(
 	name: "default",
 	pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}"
 );
+app.MapRazorPages();
 
 app.Run();
