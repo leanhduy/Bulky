@@ -4,6 +4,8 @@ using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Bulky.Utility;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +25,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 );
 
 // Removed the option that require user to confirm email before they can log in (options => options.SignIn.RequireConfirmedAccount = true)
-builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 #endregion
 
 #region PostgreSQL
@@ -40,6 +42,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<App
 #region Repositories service 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 #endregion
+
+builder.Services.AddScoped<IEmailSender, EmailSender>();		// Email Sender
 
 #region Identity Razor pages
 builder.Services.AddRazorPages();
