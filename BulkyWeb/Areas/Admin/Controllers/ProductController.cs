@@ -29,12 +29,6 @@ namespace BulkyWeb.Areas.Admin.Controllers
 			return View(products);
 		}
 
-		public IActionResult Details(int id)
-		{
-			Product product = _unitOfWork.Products.Get(p => p.Id == id, includeProps: "Category");
-			return View(product);
-		}
-
 		// CREATE + UPDATE: GET
 		// Combine Create & Update operation into one single action
 		public IActionResult Upsert(int? id)
