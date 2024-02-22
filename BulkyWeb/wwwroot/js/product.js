@@ -18,10 +18,10 @@ function loadTable() {
                 "render": function (data) {
                     return `
                     <div class=w-75 btn-group" role="group">
-                    <a href="/admin/product/upsert?id=${data}" class="btn btn-primary mx-2">
-                    <i class="bi bi-pencil-square"></i>Edit</a>
-                    <a href="/admin/product/delete?id=${data}" asp-controller="Product" asp-action="Delete" class="btn btn-danger mx-2">
-                    <i class="bi bi-trash"></i>Delete</a>
+                    <a href="/admin/product/upsert/${data}" class="btn btn-primary mx-2">
+                    <i class="bi bi-pencil-square pe-1"></i>Edit</a>
+                    <a href="/admin/product/delete/${data}" asp-controller="Product" asp-action="Delete" class="btn btn-danger mx-2">
+                    <i class="bi bi-trash pe-1"></i>Delete</a>
                     </div>
                     `;
                 },
