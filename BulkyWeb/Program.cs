@@ -23,11 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 		options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
 	)
 );
-
-// Removed the option that require user to confirm email before they can log in (options => options.SignIn.RequireConfirmedAccount = true)
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 #endregion
-
 #region PostgreSQL
 // PostgreSQL
 // builder.Services.AddDbContext<ApplicationDbContext>(
@@ -38,6 +34,16 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkSto
 // 	);
 #endregion
 #endregion
+
+// Removed the option that require user to confirm email before they can log in (options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+builder.Services.ConfigureApplicationCookie(options => {
+	options.LoginPath = $"/Identity/Account/Login";
+	options.LogoutPath = $"/Identity/Account/Logout";
+	options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
+
+
 
 #region Repositories service 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

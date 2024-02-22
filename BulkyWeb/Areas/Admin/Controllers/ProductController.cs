@@ -1,13 +1,15 @@
 ﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
 using Bulky.Models.ViewModels;
+using Bulky.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Identity.Client;
 
 namespace BulkyWeb.Areas.Admin.Controllers
 {
 	[Area("Admin")]
+	[Authorize(Roles = SD.Role_Admin)]
 	public class ProductController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
@@ -152,7 +154,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 		//	return RedirectToAction("Index");
 		//}
 		#endregion
-		
+
 		#endregion
 
 		#region API
@@ -171,7 +173,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 		{
 			// 
 			var product = _unitOfWork.Products.Get(p => p.Id == id);
-			if (product == null) 
+			if (product == null)
 			{
 				return Json(new { success = false, message = "Error while deleting" });
 			}
